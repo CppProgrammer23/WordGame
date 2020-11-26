@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var ty:String
     private lateinit var ge:String
     private lateinit var word:Word
+    var pos: Int=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,11 +45,12 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+    private lateinit var list:List<Word>
     private fun refreshWord(){
         val ins=WordManager(applicationContext)
         ins.openReadBD()
         //update the ListView
-        val list=ins.getWords()
+        list=ins.getWords()
         wordslist.adapter=ArrayAdapter(this,android.R.layout.simple_list_item_1,list)
         ins.closeBD()
     }
@@ -63,6 +65,10 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             1 -> {
                 intent=Intent(applicationContext,EditWord::class.java)
+                word = list[pos]
+                intent.putExtra("word",word.mot)
+                intent.putExtra("type",word.type)
+                intent.putExtra("genre",word.genre)
                 startActivity(intent)
             }
             2 ->{
