@@ -29,15 +29,17 @@ class MainActivity : AppCompatActivity() {
             intent = Intent(applicationContext,AddWord::class.java)
             startActivity(intent)
         }
+        btncmp.setOnClickListener(){
+            intent = Intent(applicationContext,ComposeActivity::class.java)
+            startActivity(intent)
+        }
+        btnGame.setOnClickListener(){
+            intent = Intent(applicationContext,GuessActivity::class.java)
+            startActivity(intent)
+        }
 
         wordslist.setOnItemClickListener { parent, view, position, id ->
-            val getInstance=WordManager(applicationContext)
-            val myList=getInstance.getWords()
-            //val word:Word = myList[position]
-            word=myList[position]
-            wr=word.mot
-            ty=word.type
-            ge=word.genre
+            pos=position
         }
         registerForContextMenu(wordslist)
         btnRef.setOnClickListener(){
@@ -73,8 +75,9 @@ class MainActivity : AppCompatActivity() {
             }
             2 ->{
                 val ins=WordManager(applicationContext)
+                word = list[pos]
                 ins.openWrite()
-                ins.deleteWord(item.toString())
+                var x = ins.deleteWord(word.mot)
                 ins.closeBD()
             }
         }
